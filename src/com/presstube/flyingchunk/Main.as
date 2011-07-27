@@ -1,5 +1,4 @@
-package {
-	import com.presstube.flyingchunk.FlyingChunkApp;
+package com.presstube.flyingchunk {
 	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
