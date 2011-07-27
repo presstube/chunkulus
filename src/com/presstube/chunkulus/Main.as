@@ -5,7 +5,7 @@ package com.presstube.chunkulus {
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	
-	[SWF(frameRate = "30", backgroundColor = "#222222")]
+	[SWF(frameRate = "30", width = "700", height = "500", backgroundColor = "#222222")]
 	
 	public class Main extends Sprite {
 		
