@@ -1,0 +1,126 @@
+package com.presstube.flyingchunk {
+	import flash.display.Loader;
+	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.events.IOErrorEvent;
+	import flash.events.KeyboardEvent;
+	import flash.events.MouseEvent;
+	import flash.net.URLRequest;
+	import flash.system.ApplicationDomain;
+	import flash.system.LoaderContext;
+	import flash.ui.Keyboard;
+	
+	public class FlyingChunkApp extends Sprite {
+		
+		private var scaleStage:ScaleStage;
+		private var bgCircle:Sprite;
+		private var activeStage:ActiveStage;
+		private var parallaxScroller:ParallaxScroller;
+		private var activeScroller:ActiveScroller;
+		private var flyingChunk:FlyingChunk;
+		private var boundingCircle:Sprite;
+		private var radius:int;
+		private var spawning:Boolean;
+		
+		public function FlyingChunkApp() {
+			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			loadAssets();
+		}
+		
+		private function loadAssets():void {
+			var bgImagesLoader:Loader = new Loader;
+			bgImagesLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, function(e:Event):void {
+				init();
+			});
+			bgImagesLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, function(e:IOErrorEvent):void {
+				trace("ERROR LOADING ASSETS: " + e);
+			});
+			bgImagesLoader.load(new URLRequest("../assets/assets.swf"), new LoaderContext(false, ApplicationDomain.currentDomain));
+		}
+		
+		private function init():void {
+			radius = 500;
+			
+			buttonMode = true;
+			useHandCursor = true;
+			
+			addChild(scaleStage = new ScaleStage);
+			scaleStage.addChild(bgCircle = makeBoundingCircle());
+			scaleStage.addChild(activeStage = new ActiveStage);
+			scaleStage.addChildAt(parallaxScroller = new ParallaxScroller(scaleStage, activeStage, radius), 1);
+//			activeStage.addChild(activeScroller = new ActiveScroller(activeStage, radius));
+			activeStage.addChild(flyingChunk = new FlyingChunk(activeStage, radius));
+			
+			scaleStage.addChildAt(boundingCircle = makeBoundingCircle(), 0);
+			scaleStage.mask = boundingCircle;
+			
+			activeStage.trackingTarget = flyingChunk;
+			addEventListener(Event.ENTER_FRAME, onEnterFrame);
+		}
+		
+		private function onAddedToStage(e:Event):void {
+			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			
+			stage.addEventListener(MouseEvent.MOUSE_DOWN, function(e:MouseEvent):void {
+				down();
+			});
+			stage.addEventListener(MouseEvent.MOUSE_UP, function(e:MouseEvent):void {
+				up();
+			});
+			
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, function(e:KeyboardEvent):void {
+				if (e.keyCode == Keyboard.SPACE) {
+					down();
+				}
+			});
+			stage.addEventListener(KeyboardEvent.KEY_UP, function(e:KeyboardEvent):void {
+				if (e.keyCode == Keyboard.SPACE) {
+					up();
+				}
+			});
+			
+			function down():void {
+				spawning = true;
+				flyingChunk.bodyAnimIndex = 2;
+			}
+			
+			function up():void {
+				flyingChunk.bodyAnimIndex = 1;
+				spawning = false;
+			}
+		}
+		
+		private function makeBoundingCircle():Sprite {
+			var boundingCircle:Sprite = new Sprite;
+			boundingCircle.graphics.beginFill(0x999999);
+			boundingCircle.graphics.drawCircle(0, 0, radius);
+			return boundingCircle;
+		}
+		
+		private function onEnterFrame(e:Event):void {
+//			trace("HIT: " + activeScroller.hitTest(flyingChunk));
+			if (spawning) {
+				flyingChunk.open();
+				flyingChunk.spawnChunklet();
+				flyingChunk.spawnChunklet();
+				flyingChunk.spawnChunklet();
+				
+			} else {
+				
+				flyingChunk.close();
+			}
+//			if (activeScroller.hitTest(flyingChunk)) {
+//				flyingChunk.open();
+//				flyingChunk.spawnChunklet();
+////				flyingChunk.spawnChunklet();
+////				flyingChunk.spawnChunklet();
+//				
+//			} else {
+//				flyingChunk.close();
+//				
+//			}
+		
+		}
+	
+	}
+}
