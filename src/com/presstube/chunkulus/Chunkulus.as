@@ -1,4 +1,4 @@
-package com.presstube.flyingchunk {
+package com.presstube.chunkulus {
 	import com.greensock.plugins.VolumePlugin;
 	import com.presstube.utils.PTmove;
 	
@@ -14,7 +14,7 @@ package com.presstube.flyingchunk {
 	
 	import flashx.textLayout.elements.SpanElement;
 	
-	public class FlyingChunk extends Sprite {
+	public class Chunkulus extends Sprite {
 		
 		private static const OPEN:String = "OPEN";
 		private static const CLOSE:String = "CLOSE";
@@ -39,7 +39,7 @@ package com.presstube.flyingchunk {
 		private var head:MovieClip;
 		private var direction:String;
 		
-		public function FlyingChunk(activeStage:ActiveStage, radius:Number) {
+		public function Chunkulus(activeStage:ActiveStage, radius:Number) {
 //			makeTestGraphics();
 			this.activeStage = activeStage;
 			this.radius = radius;

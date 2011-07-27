@@ -1,4 +1,4 @@
-package com.presstube.flyingchunk {
+package com.presstube.chunkulus {
 	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -10,19 +10,19 @@ package com.presstube.flyingchunk {
 	import flash.system.LoaderContext;
 	import flash.ui.Keyboard;
 	
-	public class FlyingChunkApp extends Sprite {
+	public class ChunkulusApp extends Sprite {
 		
 		private var scaleStage:ScaleStage;
 		private var bgCircle:Sprite;
 		private var activeStage:ActiveStage;
 		private var parallaxScroller:ParallaxScroller;
 		private var activeScroller:ActiveScroller;
-		private var flyingChunk:FlyingChunk;
+		private var flyingChunk:Chunkulus;
 		private var boundingCircle:Sprite;
 		private var radius:int;
 		private var spawning:Boolean;
 		
-		public function FlyingChunkApp() {
+		public function ChunkulusApp() {
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			loadAssets();
 		}
@@ -49,7 +49,7 @@ package com.presstube.flyingchunk {
 			scaleStage.addChild(activeStage = new ActiveStage);
 			scaleStage.addChildAt(parallaxScroller = new ParallaxScroller(scaleStage, activeStage, radius), 1);
 //			activeStage.addChild(activeScroller = new ActiveScroller(activeStage, radius));
-			activeStage.addChild(flyingChunk = new FlyingChunk(activeStage, radius));
+			activeStage.addChild(flyingChunk = new Chunkulus(activeStage, radius));
 			
 			scaleStage.addChildAt(boundingCircle = makeBoundingCircle(), 0);
 			scaleStage.mask = boundingCircle;

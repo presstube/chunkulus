@@ -1,4 +1,4 @@
-package com.presstube.flyingchunk {
+package com.presstube.chunkulus {
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Expo;
 	import com.presstube.utils.PTmove;

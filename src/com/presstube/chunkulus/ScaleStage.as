@@ -1,4 +1,4 @@
-package com.presstube.flyingchunk {
+package com.presstube.chunkulus {
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;

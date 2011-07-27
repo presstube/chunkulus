@@ -1,4 +1,4 @@
-package com.presstube.flyingchunk {
+package com.presstube.chunkulus {
 	import com.gskinner.PixelPerfectCollisionDetection;
 	import com.presstube.utils.PTmove;
 	

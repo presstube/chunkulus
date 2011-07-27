@@ -1,4 +1,4 @@
-package com.presstube.flyingchunk {
+package com.presstube.chunkulus {
 	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -9,18 +9,18 @@ package com.presstube.flyingchunk {
 	
 	public class Main extends Sprite {
 		
-		private var flyingChunkApp:FlyingChunkApp;
+		private var chunkulusApp:ChunkulusApp;
 		
 		public function Main() {
 			
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			
-			addChild(flyingChunkApp = new FlyingChunkApp);
+			addChild(chunkulusApp = new ChunkulusApp);
 			
 			stage.addEventListener(Event.RESIZE, function(e:Event=null):void {
-				flyingChunkApp.x = stage.stageWidth / 2;
-				flyingChunkApp.y = stage.stageHeight / 2;
+				chunkulusApp.x = stage.stageWidth / 2;
+				chunkulusApp.y = stage.stageHeight / 2;
 			});
 			stage.dispatchEvent(new Event(Event.RESIZE));
 		

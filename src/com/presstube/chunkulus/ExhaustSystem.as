@@ -1,4 +1,4 @@
-package com.presstube.flyingchunk {
+package com.presstube.chunkulus {
 	import flash.display.Sprite;
 	
 	public class ExhaustSystem extends Sprite {
