@@ -19,7 +19,7 @@ package com.presstube.chunkulus {
 		private var flyingChunk:ChunkulusHimself;
 		private var boundingCircle:Sprite;
 		private var radius:int;
-		private var spawning:Boolean;
+		private var barfing:Boolean;
 		
 		public function ChunkulusApp() {
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
@@ -30,34 +30,34 @@ package com.presstube.chunkulus {
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, function(e:MouseEvent):void {
-				down();
+				engageBarf();
 			});
 			stage.addEventListener(MouseEvent.MOUSE_UP, function(e:MouseEvent):void {
-				up();
+				disengageBarf();
 			});
 			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, function(e:KeyboardEvent):void {
 				if (e.keyCode == Keyboard.SPACE) {
-					down();
+					engageBarf();
 				}
 			});
 			stage.addEventListener(KeyboardEvent.KEY_UP, function(e:KeyboardEvent):void {
 				if (e.keyCode == Keyboard.SPACE) {
-					up();
+					disengageBarf();
 				}
 			});
-			
-			function down():void {
-				spawning = true;
-				flyingChunk.bodyAnimIndex = 2;
-				scaleStage.scale = 1.1;
-			}
-			
-			function up():void {
-				flyingChunk.bodyAnimIndex = 1;
-				spawning = false;
-				scaleStage.scale = 1;
-			}
+		}
+		
+		private function engageBarf():void {
+			barfing = true;
+			flyingChunk.bodyAnimIndex = 2;
+			scaleStage.scale = 1.1;
+		}
+		
+		private function disengageBarf():void {
+			barfing = false;
+			flyingChunk.bodyAnimIndex = 1;
+			scaleStage.scale = 1;
 		}
 		
 		private function loadAssets():void {
@@ -89,6 +89,26 @@ package com.presstube.chunkulus {
 			
 			activeStage.trackingTarget = flyingChunk;
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
+		
+			//engageAutoBarf(); // turning the barfing on autopilot for non-interactive mode
+		}
+		
+		private function engageAutoBarf():void {
+			addEventListener(Event.ENTER_FRAME, onAutoBarfEnterFrame);
+		}
+		
+		private function disengageAutoBarf():void {
+			removeEventListener(Event.ENTER_FRAME, onAutoBarfEnterFrame);
+		}
+		
+		private function onAutoBarfEnterFrame(e:Event):void {
+			if (Math.random() > .96) {
+				if (barfing) {
+					disengageBarf();
+				} else {
+					engageBarf();
+				}
+			}
 		}
 		
 		private function makeBoundingCircle():Sprite {
@@ -99,7 +119,7 @@ package com.presstube.chunkulus {
 		}
 		
 		private function onEnterFrame(e:Event):void {
-			if (spawning) {
+			if (barfing) {
 				flyingChunk.open();
 				flyingChunk.spawnChunklet();
 				flyingChunk.spawnChunklet();
