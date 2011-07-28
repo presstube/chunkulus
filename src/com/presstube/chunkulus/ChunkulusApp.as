@@ -16,7 +16,7 @@ package com.presstube.chunkulus {
 		private var bgCircle:Sprite;
 		private var activeStage:ActiveStage;
 		private var parallaxScroller:ParallaxScroller;
-		private var flyingChunk:Chunkulus;
+		private var flyingChunk:ChunkulusHimself;
 		private var boundingCircle:Sprite;
 		private var radius:int;
 		private var spawning:Boolean;
@@ -82,7 +82,7 @@ package com.presstube.chunkulus {
 			scaleStage.addChild(bgCircle = makeBoundingCircle());
 			scaleStage.addChild(activeStage = new ActiveStage);
 			scaleStage.addChildAt(parallaxScroller = new ParallaxScroller(scaleStage, activeStage, radius), 1);
-			activeStage.addChild(flyingChunk = new Chunkulus(activeStage, radius));
+			activeStage.addChild(flyingChunk = new ChunkulusHimself(activeStage, radius));
 			
 			scaleStage.addChildAt(boundingCircle = makeBoundingCircle(), 0);
 			scaleStage.mask = boundingCircle;

@@ -8,7 +8,7 @@ package com.presstube.chunkulus {
 	import flash.geom.Point;
 	import flash.utils.getDefinitionByName;
 	
-	public class Chunkulus extends Sprite {
+	public class ChunkulusHimself extends Sprite {
 		
 		private static const OPEN:String = "OPEN";
 		private static const CLOSE:String = "CLOSE";
@@ -33,7 +33,7 @@ package com.presstube.chunkulus {
 		private var head:MovieClip;
 		private var direction:String;
 		
-		public function Chunkulus(activeStage:ActiveStage, radius:Number) {
+		public function ChunkulusHimself(activeStage:ActiveStage, radius:Number) {
 			this.activeStage = activeStage;
 			this.radius = radius;
 			bodyAnimIndex = 2;
@@ -159,7 +159,7 @@ package com.presstube.chunkulus {
 		public function spawnChunklet():void {
 			var spread:Number = 10;
 			var spitRotation:Number = rotation + (Math.random() * spread - Math.random() * spread);
-			var chunklet:Chunklet = new Chunklet(activeStage, radius, (Math.random() * 10) + 50, spitRotation, velocity);
+			var chunklet:ConfettiChunklet = new ConfettiChunklet(activeStage, radius, (Math.random() * 10) + 50, spitRotation, velocity);
 			chunklet.x = x;
 			chunklet.y = y;
 			if (Math.random() < .5) {
