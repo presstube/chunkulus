@@ -16,7 +16,6 @@ package com.presstube.chunkulus {
 		private var bgCircle:Sprite;
 		private var activeStage:ActiveStage;
 		private var parallaxScroller:ParallaxScroller;
-		private var activeScroller:ActiveScroller;
 		private var flyingChunk:Chunkulus;
 		private var boundingCircle:Sprite;
 		private var radius:int;
@@ -25,37 +24,6 @@ package com.presstube.chunkulus {
 		public function ChunkulusApp() {
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			loadAssets();
-		}
-		
-		private function loadAssets():void {
-			var bgImagesLoader:Loader = new Loader;
-			bgImagesLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, function(e:Event):void {
-				init();
-			});
-			bgImagesLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, function(e:IOErrorEvent):void {
-				trace("ERROR LOADING ASSETS: " + e);
-			});
-			bgImagesLoader.load(new URLRequest("../assets/assets.swf"), new LoaderContext(false, ApplicationDomain.currentDomain));
-		}
-		
-		private function init():void {
-			radius = 500;
-			
-			buttonMode = true;
-			useHandCursor = true;
-			
-			addChild(scaleStage = new ScaleStage);
-			scaleStage.addChild(bgCircle = makeBoundingCircle());
-			scaleStage.addChild(activeStage = new ActiveStage);
-			scaleStage.addChildAt(parallaxScroller = new ParallaxScroller(scaleStage, activeStage, radius), 1);
-//			activeStage.addChild(activeScroller = new ActiveScroller(activeStage, radius));
-			activeStage.addChild(flyingChunk = new Chunkulus(activeStage, radius));
-			
-			scaleStage.addChildAt(boundingCircle = makeBoundingCircle(), 0);
-			scaleStage.mask = boundingCircle;
-			
-			activeStage.trackingTarget = flyingChunk;
-			addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
 		
 		private function onAddedToStage(e:Event):void {
@@ -82,12 +50,45 @@ package com.presstube.chunkulus {
 			function down():void {
 				spawning = true;
 				flyingChunk.bodyAnimIndex = 2;
+				scaleStage.scale = 1.1;
 			}
 			
 			function up():void {
 				flyingChunk.bodyAnimIndex = 1;
 				spawning = false;
+				scaleStage.scale = 1;
 			}
+		}
+		
+		private function loadAssets():void {
+			var bgImagesLoader:Loader = new Loader;
+			bgImagesLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, function(e:Event):void {
+				init();
+			});
+			bgImagesLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, function(e:IOErrorEvent):void {
+				trace("ERROR LOADING ASSETS: " + e);
+			});
+//			bgImagesLoader.load(new URLRequest("http://presstube.com/chunkulus/assets.swf"), new LoaderContext(false, ApplicationDomain.currentDomain));
+			bgImagesLoader.load(new URLRequest("assets.swf"), new LoaderContext(false, ApplicationDomain.currentDomain));
+		}
+		
+		private function init():void {
+			radius = 500;
+			
+			buttonMode = true;
+			useHandCursor = true;
+			
+			addChild(scaleStage = new ScaleStage);
+			scaleStage.addChild(bgCircle = makeBoundingCircle());
+			scaleStage.addChild(activeStage = new ActiveStage);
+			scaleStage.addChildAt(parallaxScroller = new ParallaxScroller(scaleStage, activeStage, radius), 1);
+			activeStage.addChild(flyingChunk = new Chunkulus(activeStage, radius));
+			
+			scaleStage.addChildAt(boundingCircle = makeBoundingCircle(), 0);
+			scaleStage.mask = boundingCircle;
+			
+			activeStage.trackingTarget = flyingChunk;
+			addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
 		
 		private function makeBoundingCircle():Sprite {
@@ -98,7 +99,6 @@ package com.presstube.chunkulus {
 		}
 		
 		private function onEnterFrame(e:Event):void {
-//			trace("HIT: " + activeScroller.hitTest(flyingChunk));
 			if (spawning) {
 				flyingChunk.open();
 				flyingChunk.spawnChunklet();
@@ -109,18 +109,6 @@ package com.presstube.chunkulus {
 				
 				flyingChunk.close();
 			}
-//			if (activeScroller.hitTest(flyingChunk)) {
-//				flyingChunk.open();
-//				flyingChunk.spawnChunklet();
-////				flyingChunk.spawnChunklet();
-////				flyingChunk.spawnChunklet();
-//				
-//			} else {
-//				flyingChunk.close();
-//				
-//			}
-		
 		}
-	
 	}
 }

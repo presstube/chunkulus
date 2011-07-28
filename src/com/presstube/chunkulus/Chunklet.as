@@ -39,9 +39,9 @@ package com.presstube.chunkulus {
 			velocity.y = forceToAdd.y;
 //			makeGraphics();
 			var chunkyAsset:MovieClip = makeChunky();
-			chunkyAsset.scaleX = chunkyAsset.scaleY = 0;
+			scaleX = scaleY = 0;
 			
-			TweenLite.to(chunkyAsset, 1, {scaleX:.5, scaleY:.5, ease:Expo.easeOut});
+//			TweenLite.to(chunkyAsset, 1, {scaleX:.5, scaleY:.5, ease:Expo.easeOut});
 			addChild(chunkyAsset);
 			
 //			var ct:ColorTransform = new ColorTransform;
@@ -62,6 +62,8 @@ package com.presstube.chunkulus {
 		}
 		
 		private function onEnterFrame(e:Event):void {
+			scaleX += (.5 - scaleX) / 2;
+			scaleY += (.5 - scaleY) / 2;
 			applyForces();
 			checkForWrap();
 		}

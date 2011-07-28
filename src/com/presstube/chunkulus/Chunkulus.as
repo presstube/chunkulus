@@ -1,18 +1,12 @@
 package com.presstube.chunkulus {
-	import com.greensock.plugins.VolumePlugin;
 	import com.presstube.utils.PTmove;
 	
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
-	import flash.display.PixelSnapping;
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.events.KeyboardEvent;
 	import flash.geom.Point;
-	import flash.ui.Keyboard;
 	import flash.utils.getDefinitionByName;
-	
-	import flashx.textLayout.elements.SpanElement;
 	
 	public class Chunkulus extends Sprite {
 		
@@ -40,13 +34,18 @@ package com.presstube.chunkulus {
 		private var direction:String;
 		
 		public function Chunkulus(activeStage:ActiveStage, radius:Number) {
-//			makeTestGraphics();
 			this.activeStage = activeStage;
 			this.radius = radius;
 			bodyAnimIndex = 2;
 			makeBody();
 			makeHead();
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+		}
+		
+		private function onAddedToStage(e:Event):void {
+			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			addEventListener(Event.ENTER_FRAME, onEnterFrame);
+			rotation = 45;
 		}
 		
 		private function makeBody():void {
@@ -68,34 +67,6 @@ package com.presstube.chunkulus {
 			head = new AssetHead;
 			head.gotoAndStop(1);
 			addChild(head);
-		}
-		
-		private function onAddedToStage(e:Event):void {
-			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-			addEventListener(Event.ENTER_FRAME, onEnterFrame);
-			rotation = 45;
-//			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-//			stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
-		}
-		
-		private function onKeyDown(e:KeyboardEvent):void {
-			if (e.keyCode == Keyboard.UP) {
-				upKeyPressed = true;
-			} else if (e.keyCode == Keyboard.LEFT) {
-				leftKeyPressed = true;
-			} else if (e.keyCode == Keyboard.RIGHT) {
-				rightKeyPressed = true;
-			}
-		}
-		
-		private function onKeyUp(e:KeyboardEvent):void {
-			if (e.keyCode == Keyboard.UP) {
-				upKeyPressed = false;
-			} else if (e.keyCode == Keyboard.LEFT) {
-				leftKeyPressed = false;
-			} else if (e.keyCode == Keyboard.RIGHT) {
-				rightKeyPressed = false;
-			}
 		}
 		
 		public function onEnterFrame(e:Event):void {
@@ -145,18 +116,6 @@ package com.presstube.chunkulus {
 			}
 		}
 		
-		private function makeTestGraphics():void {
-			graphics.beginFill(0x000000);
-			graphics.drawRect(-10, -10, 20, 20);
-			graphics.endFill();
-			graphics.beginFill(0xFF0000);
-			graphics.drawCircle(0, -10, 5);
-		}
-		
-		public function get velocity():Point {
-			return new Point(_velocity.x, _velocity.y);
-		}
-		
 		private function onBodyAnimEnterFrame(e:Event):void {
 			var bodyAnim:MovieClip = e.target as MovieClip;
 			if (bodyAnim.currentFrame == bodyAnim.totalFrames) {
@@ -189,15 +148,6 @@ package com.presstube.chunkulus {
 			}
 		}
 		
-		public function open():void {
-			direction = OPEN;
-		}
-		
-		public function close():void {
-			direction = CLOSE;
-			head.rotation = 0;
-		}
-		
 		private function animateHead():void {
 			if (direction == OPEN) {
 				head.gotoAndStop(3);
@@ -222,12 +172,21 @@ package com.presstube.chunkulus {
 			head.rotation = spitRotation - rotation;
 		}
 		
-		public function advanceBodyAnim():void {
-			_bodyAnimIndex = (_bodyAnimIndex == 5) ? 1 : _bodyAnimIndex + 1;
+		public function open():void {
+			direction = OPEN;
+		}
+		
+		public function close():void {
+			direction = CLOSE;
+			head.rotation = 0;
 		}
 		
 		public function set bodyAnimIndex(index:int):void {
 			_bodyAnimIndex = index;
+		}
+		
+		public function get velocity():Point {
+			return new Point(_velocity.x, _velocity.y);
 		}
 	
 	}

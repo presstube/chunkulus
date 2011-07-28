@@ -9,11 +9,18 @@ package com.presstube.chunkulus {
 		private var _scale:Number;
 		
 		public function ScaleStage() {
+			scale = 1;
+			addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
 		
 		public function set scale(scale:Number):void {
-			scaleX = scaleY = scale;
 			_scale = scale;
+		}
+		
+		private function onEnterFrame(event:Event):void {
+			var scaleDist:Number = (_scale - scaleX) / 10;
+			scaleX += scaleDist;
+			scaleY += scaleDist;
 		}
 		
 		public function get scale():Number {
