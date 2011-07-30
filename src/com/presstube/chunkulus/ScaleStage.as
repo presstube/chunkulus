@@ -1,4 +1,6 @@
 package com.presstube.chunkulus {
+	import com.presstube.utils.PTmove;
+	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
@@ -7,8 +9,10 @@ package com.presstube.chunkulus {
 	public class ScaleStage extends Sprite {
 		
 		private var _scale:Number;
+		private var mover:PTmove;
 		
 		public function ScaleStage() {
+			mover = new PTmove(this);
 			scale = 1;
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
@@ -18,9 +22,8 @@ package com.presstube.chunkulus {
 		}
 		
 		private function onEnterFrame(event:Event):void {
-			var scaleDist:Number = (_scale - scaleX) / 10;
-			scaleX += scaleDist;
-			scaleY += scaleDist;
+			mover.springScaleTo(_scale, 0.1, .6);
+//			mover.scaleTo(_scale, 10);
 		}
 		
 		public function get scale():Number {
